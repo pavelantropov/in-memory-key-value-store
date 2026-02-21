@@ -14,11 +14,11 @@ while (true)
 async Task ProcessClientAsync(TcpClient client)
 {
     const string exitCommand = "exit";
-    
+
     var clientId = Guid.NewGuid();
     var endpoint = client.Client.RemoteEndPoint as IPEndPoint;
     Console.WriteLine($"Client connected. Id: {clientId}, Endpoint: {endpoint?.Address}:{endpoint?.Port}");
-    
+
     await using var networkStream = client.GetStream();
     using var streamReader = new StreamReader(networkStream);
     await using var streamWriter = new StreamWriter(networkStream);
@@ -27,7 +27,7 @@ async Task ProcessClientAsync(TcpClient client)
     try
     {
         await streamWriter.WriteLineAsync("Connection established");
-        
+
         while (true)
         {
             var message = await streamReader.ReadLineAsync();
@@ -40,7 +40,7 @@ async Task ProcessClientAsync(TcpClient client)
                 await streamWriter.WriteLineAsync("Connection closed");
                 break;
             }
-            
+
             await streamWriter.WriteLineAsync($"Received: {message}");
         }
     }
