@@ -2,5 +2,5 @@
 
 public interface ITcpListenerService
 {
-    Task ProcessClientsAsync(CancellationToken token);
+    Task StartListeningAsync(CancellationToken token);
 }

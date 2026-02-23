@@ -7,7 +7,7 @@ public class TcpListenerService : ITcpListenerService
 {
     private const int Port = 8888;
 
-    public async Task ProcessClientsAsync(CancellationToken token)
+    public async Task StartListeningAsync(CancellationToken token)
     {
         var tcpListener = new TcpListener(IPAddress.Any, Port);
         tcpListener.Start();

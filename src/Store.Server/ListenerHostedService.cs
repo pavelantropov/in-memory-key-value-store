@@ -8,7 +8,7 @@ public class ListenerHostedService(ITcpListenerService listener) : BackgroundSer
     {
         try
         {
-            await listener.ProcessClientsAsync(token);
+            await listener.StartListeningAsync(token);
         }
         catch (Exception e)
         {
