@@ -6,7 +6,7 @@ using var host = Host.CreateDefaultBuilder(args)
     .ConfigureServices(services =>
     {
         services.AddSingleton<ITcpListenerService, TcpListenerService>();
-        services.AddHostedService<ListenerHostedService>();
+        services.AddHostedService<TcpListenerHostedService>();
     })
     .Build();
 
