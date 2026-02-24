@@ -2,5 +2,5 @@
 
 public record ConnectionOptions
 {
-    public int Port { get; }
-};
+    public int Port { get; init; }
+}
