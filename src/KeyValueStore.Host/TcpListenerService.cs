@@ -8,6 +8,7 @@ using Microsoft.Extensions.Options;
 namespace KeyValueStore.Host;
 
 public class TcpListenerService(
+    IStorageService storageService,
     IOptions<ConnectionOptions> connectionOptions,
     ILogger<TcpListenerService> logger) : ITcpListenerService
 {
@@ -46,7 +47,7 @@ public class TcpListenerService(
             while (true)
             {
                 var message = await streamReader.ReadLineAsync(token);
-                if (message == null) break;
+                if (string.IsNullOrEmpty(message)) break;
 
                 logger.LogDebug("Received from {ClientId}: {Message}", clientId, message);
                 await streamWriter.WriteLineAsync($"Received: {message}");
@@ -55,6 +56,20 @@ public class TcpListenerService(
                 {
                     await streamWriter.WriteLineAsync("Connection closed");
                     break;
+                }
+
+                var parts = message.Split(' ');
+
+                if (parts[0].IsCommand(Command.Get))
+                {
+                    var value = await storageService.Get(parts[1]) ?? "$-1";
+                    await streamWriter.WriteLineAsync(value);
+                }
+
+                if (parts[0].IsCommand(Command.Set))
+                {
+                    await storageService.Set(parts[1], parts[2]);
+                    await streamWriter.WriteLineAsync("+OK");
                 }
             }
         }
