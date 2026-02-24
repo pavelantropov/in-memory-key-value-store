@@ -1,8 +1,9 @@
 ﻿using System.Net;
 using System.Net.Sockets;
+using KeyValueStore.Host.Configuration;
 using Microsoft.Extensions.Options;
 
-namespace Store.Server;
+namespace KeyValueStore.Host;
 
 public class TcpListenerService(IOptions<ConnectionOptions> connectionOptions) : ITcpListenerService
 {

@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Store.Server", "src\Store.Server\Store.Server.csproj", "{040D21DE-5D36-4C72-9DFC-66E33E051032}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KeyValueStore.Host", "src\KeyValueStore.Host\KeyValueStore.Host.csproj", "{040D21DE-5D36-4C72-9DFC-66E33E051032}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "common", "common", "{94856DFD-8C6A-45FB-8CE7-FE2BEF0E3467}"
 	ProjectSection(SolutionItems) = preProject

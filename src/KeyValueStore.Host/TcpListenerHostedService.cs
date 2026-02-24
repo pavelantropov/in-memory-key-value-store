@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-namespace Store.Server;
+namespace KeyValueStore.Host;
 
 public class TcpListenerHostedService(
     ITcpListenerService tcpListener,

@@ -1,4 +1,4 @@
-﻿namespace Store.Server;
+﻿namespace KeyValueStore.Host.Configuration;
 
 public record ConnectionOptions
 {

@@ -1,6 +1,7 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using KeyValueStore.Host;
+using KeyValueStore.Host.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Store.Server;
 
 using var host = Host.CreateDefaultBuilder(args)
     .ConfigureServices(services =>
