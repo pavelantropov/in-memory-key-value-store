@@ -2,11 +2,14 @@
 using System.Net.Sockets;
 using KeyValueStore.Host.Configuration;
 using KeyValueStore.Host.Extensions;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
 namespace KeyValueStore.Host;
 
-public class TcpListenerService(IOptions<ConnectionOptions> connectionOptions) : ITcpListenerService
+public class TcpListenerService(
+    IOptions<ConnectionOptions> connectionOptions,
+    ILogger<TcpListenerService> logger) : ITcpListenerService
 {
     private readonly int _port = connectionOptions.Value.Port;
 
@@ -14,7 +17,7 @@ public class TcpListenerService(IOptions<ConnectionOptions> connectionOptions) :
     {
         var tcpListener = new TcpListener(IPAddress.Any, _port);
         tcpListener.Start();
-        Console.WriteLine($"Listening on port {_port}...");
+        logger.LogInformation("Listening on port {Port}...", _port);
 
         while (!token.IsCancellationRequested)
         {
@@ -23,11 +26,13 @@ public class TcpListenerService(IOptions<ConnectionOptions> connectionOptions) :
         }
     }
 
-    private static async Task ProcessClientAsync(TcpClient client, CancellationToken token)
+    private async Task ProcessClientAsync(TcpClient client, CancellationToken token)
     {
         var clientId = Guid.NewGuid();
         var endpoint = client.Client.RemoteEndPoint as IPEndPoint;
-        Console.WriteLine($"Client connected. Id: {clientId}, Endpoint: {endpoint?.Address}:{endpoint?.Port}");
+        logger.LogDebug(
+            "Client connected. Id: {ClientId}, Endpoint: {Address}:{Port}",
+            clientId, endpoint?.Address, endpoint?.Port);
 
         await using var networkStream = client.GetStream();
         using var streamReader = new StreamReader(networkStream);
@@ -43,29 +48,28 @@ public class TcpListenerService(IOptions<ConnectionOptions> connectionOptions) :
                 var message = await streamReader.ReadLineAsync(token);
                 if (message == null) break;
 
-                Console.WriteLine($"Received from {clientId}: {message}");
+                logger.LogDebug("Received from {ClientId}: {Message}", clientId, message);
+                await streamWriter.WriteLineAsync($"Received: {message}");
 
                 if (message.IsCommand(Command.Exit))
                 {
                     await streamWriter.WriteLineAsync("Connection closed");
                     break;
                 }
-
-                await streamWriter.WriteLineAsync($"Received: {message}");
             }
         }
-        catch (IOException ex)
+        catch (IOException e)
         {
-            Console.WriteLine($"Connection error with client {clientId}: {ex.Message}");
+            logger.LogWarning("Connection error with client {ClientId}: {ErrorMessage}", clientId, e.Message);
         }
-        catch (Exception ex)
+        catch (Exception e)
         {
-            Console.WriteLine($"Unexpected error with client {clientId}: {ex}");
+            logger.LogError("Unexpected error with client {ClientId}: {Exception}", clientId, e);
         }
         finally
         {
             client.Close();
-            Console.WriteLine($"Client disconnected. Id: {clientId}");
+            logger.LogDebug("Client disconnected. Id: {ClientId}", clientId);
         }
     }
 }
