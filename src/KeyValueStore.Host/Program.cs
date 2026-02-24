@@ -15,8 +15,9 @@ using var host = Host.CreateDefaultBuilder(args)
             builder.SetMinimumLevel(LogLevel.Debug);
         });
 
-        services.AddSingleton<ITcpListenerService, TcpListenerService>();
         services.AddHostedService<TcpListenerHostedService>();
+        services.AddSingleton<ITcpListenerService, TcpListenerService>();
+        services.AddSingleton<IStorageService, StorageService>();
     })
     .Build();
 

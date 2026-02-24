@@ -62,13 +62,13 @@ public class TcpListenerService(
 
                 if (parts[0].IsCommand(Command.Get))
                 {
-                    var value = await storageService.Get(parts[1]) ?? "$-1";
+                    var value = storageService.Get(parts[1]) ?? "$-1";
                     await streamWriter.WriteLineAsync(value);
                 }
 
                 if (parts[0].IsCommand(Command.Set))
                 {
-                    await storageService.Set(parts[1], parts[2]);
+                    storageService.Set(parts[1], parts[2]);
                     await streamWriter.WriteLineAsync("+OK");
                 }
             }

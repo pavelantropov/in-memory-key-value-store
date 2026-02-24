@@ -2,6 +2,6 @@
 
 public interface IStorageService
 {
-    Task<string?> Get(string key);
-    Task Set(string key, string value);
+    string? Get(string key);
+    void Set(string key, string value);
 }
