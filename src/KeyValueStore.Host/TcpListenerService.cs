@@ -1,6 +1,7 @@
 ﻿using System.Net;
 using System.Net.Sockets;
 using KeyValueStore.Host.Configuration;
+using KeyValueStore.Host.Extensions;
 using Microsoft.Extensions.Options;
 
 namespace KeyValueStore.Host;
@@ -24,8 +25,6 @@ public class TcpListenerService(IOptions<ConnectionOptions> connectionOptions) :
 
     private static async Task ProcessClientAsync(TcpClient client, CancellationToken token)
     {
-        const string exitCommand = "exit";
-
         var clientId = Guid.NewGuid();
         var endpoint = client.Client.RemoteEndPoint as IPEndPoint;
         Console.WriteLine($"Client connected. Id: {clientId}, Endpoint: {endpoint?.Address}:{endpoint?.Port}");
@@ -46,7 +45,7 @@ public class TcpListenerService(IOptions<ConnectionOptions> connectionOptions) :
 
                 Console.WriteLine($"Received from {clientId}: {message}");
 
-                if (message == exitCommand)
+                if (message.IsCommand(Command.Exit))
                 {
                     await streamWriter.WriteLineAsync("Connection closed");
                     break;
