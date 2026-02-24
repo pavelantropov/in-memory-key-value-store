@@ -15,7 +15,7 @@ public class TcpListenerHostedService(
         }
         catch (Exception e)
         {
-            logger.LogError(e, "Error while listening TCL clients");
+            logger.LogError(e, "Error while listening TCP clients");
         }
     }
 }
