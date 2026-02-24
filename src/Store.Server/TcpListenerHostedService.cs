@@ -4,14 +4,14 @@ using Microsoft.Extensions.Logging;
 namespace Store.Server;
 
 public class TcpListenerHostedService(
-    ITcpListenerService listener,
+    ITcpListenerService tcpListener,
     ILogger<TcpListenerHostedService> logger) : BackgroundService
 {
     protected override async Task ExecuteAsync(CancellationToken token)
     {
         try
         {
-            await listener.StartListeningAsync(token);
+            await tcpListener.StartListeningAsync(token);
         }
         catch (Exception e)
         {

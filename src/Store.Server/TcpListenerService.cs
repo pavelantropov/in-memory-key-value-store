@@ -1,17 +1,18 @@
 ﻿using System.Net;
 using System.Net.Sockets;
+using Microsoft.Extensions.Options;
 
 namespace Store.Server;
 
-public class TcpListenerService : ITcpListenerService
+public class TcpListenerService(IOptions<ConnectionOptions> connectionOptions) : ITcpListenerService
 {
-    private const int Port = 8888;
+    private readonly int _port = connectionOptions.Value.Port;
 
     public async Task StartListeningAsync(CancellationToken token)
     {
-        var tcpListener = new TcpListener(IPAddress.Any, Port);
+        var tcpListener = new TcpListener(IPAddress.Any, _port);
         tcpListener.Start();
-        Console.WriteLine($"Listening on port {Port}...");
+        Console.WriteLine($"Listening on port {_port}...");
 
         while (!token.IsCancellationRequested)
         {

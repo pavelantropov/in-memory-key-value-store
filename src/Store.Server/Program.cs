@@ -5,6 +5,8 @@ using Store.Server;
 using var host = Host.CreateDefaultBuilder(args)
     .ConfigureServices(services =>
     {
+        services.AddOptions<ConnectionOptions>().BindConfiguration(nameof(ConnectionOptions));
+
         services.AddSingleton<ITcpListenerService, TcpListenerService>();
         services.AddHostedService<TcpListenerHostedService>();
     })
