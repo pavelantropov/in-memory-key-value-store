@@ -1,4 +1,4 @@
-﻿namespace KeyValueStore.Host;
+﻿namespace KeyValueStore.Host.Enums;
 
 public enum Command
 {

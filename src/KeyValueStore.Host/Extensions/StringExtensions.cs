@@ -1,4 +1,6 @@
-﻿namespace KeyValueStore.Host.Extensions;
+﻿using KeyValueStore.Host.Enums;
+
+namespace KeyValueStore.Host.Extensions;
 
 public static class StringExtensions
 {

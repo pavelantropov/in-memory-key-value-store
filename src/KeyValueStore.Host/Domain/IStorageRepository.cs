@@ -1,6 +1,6 @@
-﻿namespace KeyValueStore.Host;
-using KeyValueStore.Host.Models;
+﻿using KeyValueStore.Host.Models;
 
+namespace KeyValueStore.Host.Domain;
 
 public interface IStorageRepository
 {

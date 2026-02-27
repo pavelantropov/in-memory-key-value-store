@@ -1,7 +1,8 @@
 ﻿using System.Collections.Concurrent;
+using KeyValueStore.Host.Domain;
 using KeyValueStore.Host.Models;
 
-namespace KeyValueStore.Host;
+namespace KeyValueStore.Host.Infrastructure;
 
 public class StorageRepository : IStorageRepository
 {

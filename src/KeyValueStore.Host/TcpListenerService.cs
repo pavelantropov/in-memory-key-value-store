@@ -1,6 +1,8 @@
 ﻿using System.Net;
 using System.Net.Sockets;
 using KeyValueStore.Host.Configuration;
+using KeyValueStore.Host.Domain;
+using KeyValueStore.Host.Enums;
 using KeyValueStore.Host.Extensions;
 using KeyValueStore.Host.Models;
 using Microsoft.Extensions.Logging;
