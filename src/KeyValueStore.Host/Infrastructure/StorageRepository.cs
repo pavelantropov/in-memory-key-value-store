@@ -1,18 +1,19 @@
 ﻿using System.Collections.Concurrent;
+using KeyValueStore.Host.Models;
 
 namespace KeyValueStore.Host;
 
 public class StorageRepository : IStorageRepository
 {
-    private static readonly ConcurrentDictionary<string, string> Storage = new();
+    private static readonly ConcurrentDictionary<string, StorageValue> Storage = new();
 
-    public string? Get(string key)
+    public StorageValue? Get(string key)
     {
         Storage.TryGetValue(key, out var value);
         return value;
     }
 
-    public void Set(string key, string value)
+    public void Set(string key, StorageValue value)
     {
         Storage.AddOrUpdate(key, value, (_, _) => value);
     }

@@ -2,6 +2,7 @@
 using System.Net.Sockets;
 using KeyValueStore.Host.Configuration;
 using KeyValueStore.Host.Extensions;
+using KeyValueStore.Host.Models;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
@@ -73,21 +74,25 @@ public class TcpListenerService(
 
             logger.LogDebug("Received from {ClientId}: {Message}", clientId, message);
 
-            var parts = message.Split(' ');
+            var parts = message.Split(' ', 3);
             if (!parts[0].IsCommand(out var command)) continue;
+
+            var key = parts[1];
+            var value = new StorageValue(parts[2]);
 
             switch (command)
             {
                 case Command.Get:
-                    var getResult = storageRepository.Get(parts[1]) ?? NotFoundResult;
+                    var actualValue = storageRepository.Get(key)?.Value;
+                    var getResult = actualValue ?? NotFoundResult;
                     await writer.WriteLineAsync(getResult);
                     break;
                 case Command.Set:
-                    storageRepository.Set(parts[1], parts[2]);
+                    storageRepository.Set(key, value);
                     await writer.WriteLineAsync(OkResult);
                     break;
                 case Command.Del:
-                    var isSuccess = storageRepository.Del(parts[1]);
+                    var isSuccess = storageRepository.Del(key);
                     var delResult = isSuccess ? OkResult : NotFoundResult;
                     await writer.WriteLineAsync(delResult);
                     break;
