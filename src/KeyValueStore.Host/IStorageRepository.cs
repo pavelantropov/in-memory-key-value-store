@@ -1,6 +1,6 @@
 ﻿namespace KeyValueStore.Host;
 
-public interface IStorageService
+public interface IStorageRepository
 {
     string? Get(string key);
     void Set(string key, string value);

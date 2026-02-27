@@ -8,7 +8,7 @@ using Microsoft.Extensions.Options;
 namespace KeyValueStore.Host;
 
 public class TcpListenerService(
-    IStorageService storageService,
+    IStorageRepository storageRepository,
     IOptions<ConnectionOptions> connectionOptions,
     ILogger<TcpListenerService> logger) : ITcpListenerService
 {
@@ -79,15 +79,15 @@ public class TcpListenerService(
             switch (command)
             {
                 case Command.Get:
-                    var getResult = storageService.Get(parts[1]) ?? NotFoundResult;
+                    var getResult = storageRepository.Get(parts[1]) ?? NotFoundResult;
                     await writer.WriteLineAsync(getResult);
                     break;
                 case Command.Set:
-                    storageService.Set(parts[1], parts[2]);
+                    storageRepository.Set(parts[1], parts[2]);
                     await writer.WriteLineAsync(OkResult);
                     break;
                 case Command.Del:
-                    var isSuccess = storageService.Del(parts[1]);
+                    var isSuccess = storageRepository.Del(parts[1]);
                     var delResult = isSuccess ? OkResult : NotFoundResult;
                     await writer.WriteLineAsync(delResult);
                     break;

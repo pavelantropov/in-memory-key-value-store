@@ -17,7 +17,7 @@ using var host = Host.CreateDefaultBuilder(args)
 
         services.AddHostedService<TcpListenerHostedService>();
         services.AddSingleton<ITcpListenerService, TcpListenerService>();
-        services.AddSingleton<IStorageService, StorageService>();
+        services.AddSingleton<IStorageRepository, StorageRepository>();
     })
     .Build();
 

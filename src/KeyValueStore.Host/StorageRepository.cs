@@ -2,7 +2,7 @@
 
 namespace KeyValueStore.Host;
 
-public class StorageService : IStorageService
+public class StorageRepository : IStorageRepository
 {
     private static readonly ConcurrentDictionary<string, string> Storage = new();
 
