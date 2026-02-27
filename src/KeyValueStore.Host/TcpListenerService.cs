@@ -39,48 +39,14 @@ public class TcpListenerService(
             clientId, endpoint?.Address, endpoint?.Port);
 
         await using var networkStream = client.GetStream();
-        using var streamReader = new StreamReader(networkStream);
-        await using var streamWriter = new StreamWriter(networkStream);
-        streamWriter.AutoFlush = true;
+        using var reader = new StreamReader(networkStream);
+        await using var writer = new StreamWriter(networkStream);
+        writer.AutoFlush = true;
 
         try
         {
-            await streamWriter.WriteLineAsync("Connection established");
-
-            while (true)
-            {
-                var message = await streamReader.ReadLineAsync(token);
-                if (string.IsNullOrEmpty(message)) break;
-
-                logger.LogDebug("Received from {ClientId}: {Message}", clientId, message);
-
-                if (message.IsCommand(Command.Exit))
-                {
-                    await streamWriter.WriteLineAsync("Connection closed");
-                    break;
-                }
-
-                var parts = message.Split(' ');
-
-                if (parts[0].IsCommand(Command.Get))
-                {
-                    var result = storageService.Get(parts[1]) ?? NotFoundResult;
-                    await streamWriter.WriteLineAsync(result);
-                }
-
-                if (parts[0].IsCommand(Command.Set))
-                {
-                    storageService.Set(parts[1], parts[2]);
-                    await streamWriter.WriteLineAsync(OkResult);
-                }
-
-                if (parts[0].IsCommand(Command.Del))
-                {
-                    var isSuccess = storageService.Del(parts[1]);
-                    var result = isSuccess ? OkResult : NotFoundResult;
-                    await streamWriter.WriteLineAsync(result);
-                }
-            }
+            await writer.WriteLineAsync("Connection established");
+            await ProcessCommunicationAsync(reader, writer, clientId, token);
         }
         catch (IOException e)
         {
@@ -94,6 +60,41 @@ public class TcpListenerService(
         {
             client.Close();
             logger.LogDebug("Client disconnected. Id: {ClientId}", clientId);
+        }
+    }
+
+    private async Task ProcessCommunicationAsync(StreamReader reader, StreamWriter writer, Guid clientId,
+        CancellationToken token)
+    {
+        while (!token.IsCancellationRequested)
+        {
+            var message = await reader.ReadLineAsync(token);
+            if (string.IsNullOrEmpty(message)) break;
+
+            logger.LogDebug("Received from {ClientId}: {Message}", clientId, message);
+
+            var parts = message.Split(' ');
+            if (!parts[0].IsCommand(out var command)) continue;
+
+            switch (command)
+            {
+                case Command.Get:
+                    var getResult = storageService.Get(parts[1]) ?? NotFoundResult;
+                    await writer.WriteLineAsync(getResult);
+                    break;
+                case Command.Set:
+                    storageService.Set(parts[1], parts[2]);
+                    await writer.WriteLineAsync(OkResult);
+                    break;
+                case Command.Del:
+                    var isSuccess = storageService.Del(parts[1]);
+                    var delResult = isSuccess ? OkResult : NotFoundResult;
+                    await writer.WriteLineAsync(delResult);
+                    break;
+                case Command.Exit:
+                    await writer.WriteLineAsync("Connection closed");
+                    return;
+            }
         }
     }
 }
