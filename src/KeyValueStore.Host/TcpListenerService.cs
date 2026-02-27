@@ -50,7 +50,6 @@ public class TcpListenerService(
                 if (string.IsNullOrEmpty(message)) break;
 
                 logger.LogDebug("Received from {ClientId}: {Message}", clientId, message);
-                await streamWriter.WriteLineAsync($"Received: {message}");
 
                 if (message.IsCommand(Command.Exit))
                 {
