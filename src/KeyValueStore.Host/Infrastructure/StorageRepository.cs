@@ -11,6 +11,7 @@ public class StorageRepository : IStorageRepository
     public StorageValue? Get(string key)
     {
         Storage.TryGetValue(key, out var value);
+        if (value.ExpiresAt < DateTimeOffset.Now) Del(key);
         return value;
     }
 

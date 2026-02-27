@@ -80,7 +80,6 @@ public class TcpListenerService(
             if (!parts[0].IsCommand(out var command)) continue;
 
             var key = parts[1];
-            var value = new StorageValue(parts[2]);
 
             switch (command)
             {
@@ -90,6 +89,8 @@ public class TcpListenerService(
                     await writer.WriteLineAsync(getResult);
                     break;
                 case Command.Set:
+                    var expiry = DateTimeOffset.Now + StorageValue.Ttl;
+                    var value = new StorageValue(parts[2], expiry);
                     storageRepository.Set(key, value);
                     await writer.WriteLineAsync(OkResult);
                     break;
