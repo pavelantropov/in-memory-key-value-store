@@ -12,6 +12,9 @@ public class TcpListenerService(
     IOptions<ConnectionOptions> connectionOptions,
     ILogger<TcpListenerService> logger) : ITcpListenerService
 {
+    private const string OkResult = "+OK";
+    private const string NotFoundResult = "$-1";
+
     private readonly int _port = connectionOptions.Value.Port;
 
     public async Task StartListeningAsync(CancellationToken token)
@@ -61,14 +64,14 @@ public class TcpListenerService(
 
                 if (parts[0].IsCommand(Command.Get))
                 {
-                    var value = storageService.Get(parts[1]) ?? "$-1";
-                    await streamWriter.WriteLineAsync(value);
+                    var result = storageService.Get(parts[1]) ?? NotFoundResult;
+                    await streamWriter.WriteLineAsync(result);
                 }
 
                 if (parts[0].IsCommand(Command.Set))
                 {
                     storageService.Set(parts[1], parts[2]);
-                    await streamWriter.WriteLineAsync("+OK");
+                    await streamWriter.WriteLineAsync(OkResult);
                 }
             }
         }
