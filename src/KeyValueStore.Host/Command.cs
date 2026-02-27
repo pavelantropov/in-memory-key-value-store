@@ -4,5 +4,6 @@ public enum Command
 {
     Get,
     Set,
+    Del,
     Exit
 }

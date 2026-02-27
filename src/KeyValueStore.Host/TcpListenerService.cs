@@ -73,6 +73,13 @@ public class TcpListenerService(
                     storageService.Set(parts[1], parts[2]);
                     await streamWriter.WriteLineAsync(OkResult);
                 }
+
+                if (parts[0].IsCommand(Command.Del))
+                {
+                    var isSuccess = storageService.Del(parts[1]);
+                    var result = isSuccess ? OkResult : NotFoundResult;
+                    await streamWriter.WriteLineAsync(result);
+                }
             }
         }
         catch (IOException e)

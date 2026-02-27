@@ -16,4 +16,9 @@ public class StorageService : IStorageService
     {
         Storage.AddOrUpdate(key, value, (_, _) => value);
     }
+
+    public bool Del(string key)
+    {
+        return Storage.TryRemove(key, out _);
+    }
 }
