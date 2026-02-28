@@ -2,7 +2,7 @@
 using KeyValueStore.Host.Domain;
 using KeyValueStore.Host.Models;
 
-namespace KeyValueStore.Host.Infrastructure;
+namespace KeyValueStore.Host.Infrastructure.Repositories;
 
 public class StorageRepository : IStorageRepository
 {

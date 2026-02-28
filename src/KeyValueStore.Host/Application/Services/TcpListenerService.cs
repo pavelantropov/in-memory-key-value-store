@@ -8,7 +8,7 @@ using KeyValueStore.Host.Models;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
-namespace KeyValueStore.Host;
+namespace KeyValueStore.Host.Application.Services;
 
 public class TcpListenerService(
     IStorageRepository storageRepository,

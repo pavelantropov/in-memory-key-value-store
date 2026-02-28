@@ -1,4 +1,4 @@
-﻿namespace KeyValueStore.Host;
+﻿namespace KeyValueStore.Host.Application.Services;
 
 public interface ITcpListenerService
 {

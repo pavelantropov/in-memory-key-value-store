@@ -1,7 +1,8 @@
 ﻿using KeyValueStore.Host;
+using KeyValueStore.Host.Application.Services;
 using KeyValueStore.Host.Configuration;
 using KeyValueStore.Host.Domain;
-using KeyValueStore.Host.Infrastructure;
+using KeyValueStore.Host.Infrastructure.Repositories;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
