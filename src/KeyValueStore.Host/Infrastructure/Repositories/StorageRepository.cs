@@ -13,8 +13,15 @@ public class StorageRepository(IOptionsMonitor<StorageOptions> storageOptions) :
     public string? Get(string key)
     {
         var isSuccess = Storage.TryGetValue(key, out var value);
-        if (value.ExpiresAt < DateTimeOffset.Now) Del(key);
-        return isSuccess ? value.Value : null;
+        if (!isSuccess) return null;
+
+        if (value.ExpiresAt < DateTimeOffset.Now)
+        {
+            Del(key);
+            return null;
+        }
+
+        return value.Value;
     }
 
     public void Set(string key, string value)
