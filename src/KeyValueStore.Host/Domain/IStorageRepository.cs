@@ -1,10 +1,8 @@
-﻿using KeyValueStore.Host.Models;
-
-namespace KeyValueStore.Host.Domain;
+﻿namespace KeyValueStore.Host.Domain;
 
 public interface IStorageRepository
 {
-    StorageValue? Get(string key);
-    void Set(string key, StorageValue value);
+    string? Get(string key);
+    void Set(string key, string value);
     bool Del(string key);
 }

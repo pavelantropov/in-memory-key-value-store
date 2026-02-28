@@ -1,23 +1,27 @@
 ﻿using System.Collections.Concurrent;
+using KeyValueStore.Host.Configuration;
 using KeyValueStore.Host.Domain;
-using KeyValueStore.Host.Models;
+using KeyValueStore.Host.Domain.Models;
+using Microsoft.Extensions.Options;
 
 namespace KeyValueStore.Host.Infrastructure.Repositories;
 
-public class StorageRepository : IStorageRepository
+public class StorageRepository(IOptionsMonitor<StorageOptions> storageOptions) : IStorageRepository
 {
     private static readonly ConcurrentDictionary<string, StorageValue> Storage = new();
 
-    public StorageValue? Get(string key)
+    public string? Get(string key)
     {
-        Storage.TryGetValue(key, out var value);
+        var isSuccess = Storage.TryGetValue(key, out var value);
         if (value.ExpiresAt < DateTimeOffset.Now) Del(key);
-        return value;
+        return isSuccess ? value.Value : null;
     }
 
-    public void Set(string key, StorageValue value)
+    public void Set(string key, string value)
     {
-        Storage.AddOrUpdate(key, value, (_, _) => value);
+        var expiry = DateTimeOffset.Now.AddSeconds(storageOptions.CurrentValue.TtlInSeconds);
+        var storageValue = new StorageValue(value, expiry);
+        Storage.AddOrUpdate(key, storageValue, (_, _) => storageValue);
     }
 
     public bool Del(string key)

@@ -4,7 +4,6 @@ using KeyValueStore.Host.Configuration;
 using KeyValueStore.Host.Domain;
 using KeyValueStore.Host.Enums;
 using KeyValueStore.Host.Extensions;
-using KeyValueStore.Host.Models;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
@@ -84,13 +83,12 @@ public class TcpListenerService(
             switch (command)
             {
                 case Command.Get:
-                    var actualValue = storageRepository.Get(key)?.Value;
+                    var actualValue = storageRepository.Get(key);
                     var getResult = actualValue ?? NotFoundResult;
                     await writer.WriteLineAsync(getResult);
                     break;
                 case Command.Set:
-                    var expiry = DateTimeOffset.Now + StorageValue.Ttl;
-                    var value = new StorageValue(parts[2], expiry);
+                    var value = parts[2];
                     storageRepository.Set(key, value);
                     await writer.WriteLineAsync(OkResult);
                     break;

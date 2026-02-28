@@ -1,6 +1,3 @@
-﻿namespace KeyValueStore.Host.Models;
+﻿namespace KeyValueStore.Host.Domain.Models;
 
-public record StorageValue(string Value, DateTimeOffset ExpiresAt)
-{
-    public static TimeSpan Ttl => TimeSpan.FromSeconds(30);
-}
+public record StorageValue(string Value, DateTimeOffset ExpiresAt);

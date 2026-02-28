@@ -11,6 +11,7 @@ using var host = Host.CreateDefaultBuilder(args)
     .ConfigureServices(services =>
     {
         services.AddOptions<ConnectionOptions>().BindConfiguration(nameof(ConnectionOptions));
+        services.AddOptions<StorageOptions>().BindConfiguration(nameof(StorageOptions));
 
         services.AddLogging(builder =>
         {
