@@ -2,8 +2,16 @@
 
 ## Features:
 
-- TCP listener [done]
-- In-Memory Key-Value storage [done]
-- TTL [mvp]
-- RESP protocol [todo]
-- Pub/Sub [todo,optional]
+### Done
+
+- TCP Listener
+- In-Memory Key-Value Storage (MVP)
+
+### In Progress
+
+- TTL
+- Cron Service
+
+### TODO
+
+- RESP Protocol
