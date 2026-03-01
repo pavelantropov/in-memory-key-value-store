@@ -1,5 +1,7 @@
 ﻿using KeyValueStore.Host;
 using KeyValueStore.Host.Application.Services;
+using KeyValueStore.Host.Background;
+using KeyValueStore.Host.Background.Jobs;
 using KeyValueStore.Host.Background.Services;
 using KeyValueStore.Host.Configuration;
 using KeyValueStore.Host.Domain;
@@ -26,6 +28,8 @@ using var host = Host.CreateDefaultBuilder(args)
 
         services.AddSingleton<ITcpListenerService, TcpListenerService>();
         services.AddSingleton<IStorageRepository, StorageRepository>();
+
+        services.AddTransient<IJob, TtlJob>();
     })
     .Build();
 
