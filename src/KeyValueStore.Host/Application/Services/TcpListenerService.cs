@@ -78,22 +78,22 @@ public class TcpListenerService(
             var parts = message.Split(' ', 3);
             if (!parts[0].IsCommand(out var command)) continue;
 
-            var key = parts[1];
+            var key = parts.Length > 1 ? parts[1] : null;
             var result = OkResult;
 
             // TODO: move it somewhere from here
             switch (command)
             {
                 case Command.Get:
-                    var actualValue = storageRepository.Get(key);
+                    var actualValue = storageRepository.Get(key!);
                     result = actualValue ?? NotFoundResult;
                     break;
                 case Command.Set:
                     var value = parts[2];
-                    storageRepository.Set(key, value);
+                    storageRepository.Set(key!, value);
                     break;
                 case Command.Del:
-                    var isSuccess = storageRepository.Del(key);
+                    var isSuccess = storageRepository.Del(key!);
                     result = isSuccess ? OkResult : NotFoundResult;
                     break;
                 case Command.Flush:
