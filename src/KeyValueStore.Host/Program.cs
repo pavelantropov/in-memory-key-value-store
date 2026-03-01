@@ -1,5 +1,6 @@
 ﻿using KeyValueStore.Host;
 using KeyValueStore.Host.Application.Services;
+using KeyValueStore.Host.Background.Services;
 using KeyValueStore.Host.Configuration;
 using KeyValueStore.Host.Domain;
 using KeyValueStore.Host.Infrastructure.Repositories;
@@ -12,6 +13,7 @@ using var host = Host.CreateDefaultBuilder(args)
     {
         services.AddOptions<ConnectionOptions>().BindConfiguration(nameof(ConnectionOptions));
         services.AddOptions<StorageOptions>().BindConfiguration(nameof(StorageOptions));
+        services.AddOptions<CronOptions>().BindConfiguration(nameof(CronOptions));
 
         services.AddLogging(builder =>
         {
@@ -20,6 +22,8 @@ using var host = Host.CreateDefaultBuilder(args)
         });
 
         services.AddHostedService<TcpListenerHostedService>();
+        services.AddHostedService<CronService>();
+
         services.AddSingleton<ITcpListenerService, TcpListenerService>();
         services.AddSingleton<IStorageRepository, StorageRepository>();
     })
