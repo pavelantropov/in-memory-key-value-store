@@ -6,5 +6,6 @@ public enum Command
     Get,
     Set,
     Del,
+    Flush,
     Exit
 }

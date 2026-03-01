@@ -35,4 +35,9 @@ public class StorageRepository(IOptionsMonitor<StorageOptions> storageOptions) :
     {
         return Storage.TryRemove(key, out _);
     }
+
+    public void Flush()
+    {
+        Storage.Clear();
+    }
 }

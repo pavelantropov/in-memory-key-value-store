@@ -8,7 +8,8 @@ public static class StringExtensions
     {
         public bool IsCommand(out Command command)
         {
-            return Enum.TryParse(message, true, out command);
+            var isCommand = Enum.TryParse(message, true, out command);
+            return isCommand && command != Command.None;
         }
 
         public bool IsCommand(Command command)

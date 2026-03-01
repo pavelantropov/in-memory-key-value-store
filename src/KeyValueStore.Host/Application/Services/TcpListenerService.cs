@@ -79,28 +79,34 @@ public class TcpListenerService(
             if (!parts[0].IsCommand(out var command)) continue;
 
             var key = parts[1];
+            var result = OkResult;
 
+            // TODO: move it somewhere from here
             switch (command)
             {
                 case Command.Get:
                     var actualValue = storageRepository.Get(key);
-                    var getResult = actualValue ?? NotFoundResult;
-                    await writer.WriteLineAsync(getResult);
+                    result = actualValue ?? NotFoundResult;
                     break;
                 case Command.Set:
                     var value = parts[2];
                     storageRepository.Set(key, value);
-                    await writer.WriteLineAsync(OkResult);
                     break;
                 case Command.Del:
                     var isSuccess = storageRepository.Del(key);
-                    var delResult = isSuccess ? OkResult : NotFoundResult;
-                    await writer.WriteLineAsync(delResult);
+                    result = isSuccess ? OkResult : NotFoundResult;
+                    break;
+                case Command.Flush:
+                    storageRepository.Flush();
                     break;
                 case Command.Exit:
                     await writer.WriteLineAsync("Connection closed");
                     return;
+                default:
+                    continue;
             }
+
+            await writer.WriteLineAsync(result);
         }
     }
 }
