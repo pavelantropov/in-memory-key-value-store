@@ -9,8 +9,8 @@
 
 ### In Progress
 
-- TTL
 - Cron Service
+- TTL
 
 ### TODO
 

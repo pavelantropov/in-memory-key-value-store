@@ -9,7 +9,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "common", "common", "{94856D
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KeyValueStore.UnitTests", "KeyValueStore.UnitTests\KeyValueStore.UnitTests.csproj", "{2FA90F6E-1EA0-4020-BD38-0185AC3623F5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KeyValueStore.UnitTests", "tests\KeyValueStore.UnitTests\KeyValueStore.UnitTests.csproj", "{2FA90F6E-1EA0-4020-BD38-0185AC3623F5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KeyValueStore.Cron", "src\KeyValueStore.Cron\KeyValueStore.Cron.csproj", "{7AF18582-0E6A-4855-9069-AABAEBD3D204}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,5 +27,9 @@ Global
 		{2FA90F6E-1EA0-4020-BD38-0185AC3623F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2FA90F6E-1EA0-4020-BD38-0185AC3623F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2FA90F6E-1EA0-4020-BD38-0185AC3623F5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7AF18582-0E6A-4855-9069-AABAEBD3D204}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7AF18582-0E6A-4855-9069-AABAEBD3D204}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7AF18582-0E6A-4855-9069-AABAEBD3D204}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7AF18582-0E6A-4855-9069-AABAEBD3D204}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

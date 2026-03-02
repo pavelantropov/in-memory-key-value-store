@@ -1,14 +1,12 @@
-﻿using KeyValueStore.Host.Configuration;
+﻿using KeyValueStore.Cron.Abstractions;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 
-namespace KeyValueStore.Host.Background.Services;
+namespace KeyValueStore.Cron;
 
-public class CronService(
+public class CronBackgroundService(
     IEnumerable<IJob> jobs,
-    IOptionsMonitor<CronOptions> options,
-    ILogger<CronService> logger) : BackgroundService
+    ILogger<CronBackgroundService> logger) : BackgroundService
 {
     protected override async Task ExecuteAsync(CancellationToken token)
     {

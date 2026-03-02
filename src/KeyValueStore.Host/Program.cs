@@ -1,8 +1,8 @@
-﻿using KeyValueStore.Host;
+﻿using KeyValueStore.Cron;
+using KeyValueStore.Cron.Abstractions;
+using KeyValueStore.Host;
 using KeyValueStore.Host.Application.Services;
-using KeyValueStore.Host.Background;
 using KeyValueStore.Host.Background.Jobs;
-using KeyValueStore.Host.Background.Services;
 using KeyValueStore.Host.Configuration;
 using KeyValueStore.Host.Domain;
 using KeyValueStore.Host.Infrastructure.Repositories;
@@ -23,8 +23,8 @@ using var host = Host.CreateDefaultBuilder(args)
             builder.SetMinimumLevel(LogLevel.Debug);
         });
 
-        services.AddHostedService<TcpListenerHostedService>();
-        services.AddHostedService<CronService>();
+        services.AddHostedService<TcpListenerBackgroundService>();
+        services.AddHostedService<CronBackgroundService>();
 
         services.AddSingleton<ITcpListenerService, TcpListenerService>();
         services.AddSingleton<IStorageRepository, StorageRepository>();

@@ -4,9 +4,9 @@ using Microsoft.Extensions.Logging;
 
 namespace KeyValueStore.Host;
 
-public class TcpListenerHostedService(
+public class TcpListenerBackgroundService(
     ITcpListenerService tcpListener,
-    ILogger<TcpListenerHostedService> logger) : BackgroundService
+    ILogger<TcpListenerBackgroundService> logger) : BackgroundService
 {
     protected override async Task ExecuteAsync(CancellationToken token)
     {
