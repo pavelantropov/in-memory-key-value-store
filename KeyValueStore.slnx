@@ -1,0 +1,14 @@
+<Solution>
+    <Folder Name="/common/">
+        <File Path=".editorconfig"/>
+        <File Path=".gitignore"/>
+        <File Path="README.md"/>
+    </Folder>
+    <Folder Name="/src/">
+        <Project Path="src/KeyValueStore.Cron/KeyValueStore.Cron.csproj"/>
+        <Project Path="src/KeyValueStore.Host/KeyValueStore.Host.csproj"/>
+    </Folder>
+    <Folder Name="/tests/">
+        <Project Path="tests/KeyValueStore.UnitTests/KeyValueStore.UnitTests.csproj"/>
+    </Folder>
+</Solution>
