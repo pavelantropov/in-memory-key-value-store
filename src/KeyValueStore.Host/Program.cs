@@ -1,7 +1,6 @@
 ﻿using KeyValueStore.Cron;
 using KeyValueStore.Cron.Abstractions;
 using KeyValueStore.Host;
-using KeyValueStore.Host.Application.Services;
 using KeyValueStore.Host.Background.Jobs;
 using KeyValueStore.Host.Configuration;
 using KeyValueStore.Host.Domain;
@@ -26,7 +25,6 @@ using var host = Host.CreateDefaultBuilder(args)
         services.AddHostedService<TcpListenerBackgroundService>();
         services.AddHostedService<CronBackgroundService>();
 
-        services.AddSingleton<ITcpListenerService, TcpListenerService>();
         services.AddSingleton<IStorageRepository, StorageRepository>();
 
         services.AddTransient<IJob, TtlJob>();

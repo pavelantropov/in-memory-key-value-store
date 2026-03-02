@@ -19,10 +19,6 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Folder Include="Background\Helpers\"/>
-    </ItemGroup>
-
-    <ItemGroup>
         <ProjectReference Include="..\KeyValueStore.Cron\KeyValueStore.Cron.csproj"/>
     </ItemGroup>
 
